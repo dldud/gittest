@@ -13,6 +13,15 @@
 char screen_buffer[8*8];
 
 int car_posx,car_posy;
+void rg_apply_mainTitle()
+{
+	switch(nStep) {
+
+		case 0:
+		puts("press to start");
+		nStep = 1;
+		break;
+		case 1:
 
 int main()
 {
@@ -21,7 +30,6 @@ int main()
 		screen_buffer[i] = 0;
 	}
 
-	struct timespec work_timer;
 	set_conio_terminal_mode();
 
 	int bLoop = 1;

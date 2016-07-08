@@ -36,7 +36,12 @@ int main()
 		
 		system("clear");
 		//주인공 출력
-		drawMyBox(xpos,ypos,44,1);
+		drawMyBox(6+xpos,4+ypos,43,1);
+		drawMyBox(5+xpos,5+ypos,41,3);
+		drawMyBox(4+xpos,6+ypos,44,0);
+		drawMyBox(9+xpos,6+ypos,44,0);
+		drawMyBox(5+xpos,9+ypos,44,0);
+		drawMyBox(8+xpos,9+ypos,44,0);
 		//몹 출력
 		if(orc_xpos > xpos) {
 			orc_xpos -= 1;

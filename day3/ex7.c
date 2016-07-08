@@ -87,6 +87,9 @@ int main()
 		nCount %=10;
 		
 		system("clear");
+		drawMyBox(5+xpos,5+ypos,44,3);
+		drawMyBox(4+xpos,4+ypos,43,0);
+		drawMyBox(3+xpos,3+ypos,44,1);
 		drawMyBox(xpos,ypos,44,1);
 		drawMyBox(nCount,5,42,3);
 		gotoxy(0,20);

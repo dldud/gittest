@@ -1,92 +1,74 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "myeditor.h"
 
-int main()
+typedef struct {
+	char *m_szToken;
+	void (*m_fp)(char *ptr);
+} _S_PROC_OBJECT;
+
+
+int bLoop = 1;
+char *pTemp;
+char strCmd[128];
+static _S_STR_LINE *pHeader = NULL;
+
+void me_exit()
 {
-	int bLoop = 1;
-	char *strLine[128] = {0};
-	int nTailIndex = 0;
-
-	while(bLoop)
-	{
-		char *pTemp;
-		char strCmd[128];
-		gets(strCmd);
-
-		pTemp = strtok(strCmd," ");
-
-		if(!strcmp(pTemp,"exit")) {
-			bLoop = 0;
-		}
-		else if(!strcmp(pTemp,"push")) {
-			//push 원하는 문자열
-			pTemp = strtok(NULL," ");
-			char *pstr = (char *)malloc(strlen(pTemp)+1);
-			strcpy(pstr,pTemp);
-			strLine[nTailIndex++] = pstr;
-		}
-		else if(!strcmp(pTemp,"pop")) {
-			nTailIndex--;
-			free(strLine[nTailIndex]);
-			strLine[nTailIndex] = 0x00;
-		}
-		else if(!strcmp(pTemp,"del")) {
-			free(strLine[0]);
-			nTailIndex--;
-			for(int i=0;i<nTailIndex-1;i++) {
-				strLine[i] = strLine[i+1];
-			}
-		}
-		else if(!strcmp(pTemp,"ins")) {
-			//ins 2 hello
-			int nIndex = atoi(strtok(NULL," "));
-			pTemp = strtok(NULL,"");
-			printf("%d,%s추가 \r\n",nIndex,pTemp);
-			int i;
-			for(i = nTailIndex;i > nIndex;i--) {
-				strLine[i] = strLine[i-1];
-			}
-			char *pstr = (char *)malloc(strlen(pTemp)+1);
-			strcpy(pstr,pTemp);
-			strLine[i] = pstr;
-			nTailIndex++;
-		}
-		else if(!strcmp(pTemp,"rm")) {
-			//rm 1
-			int nIndex = atoi(strtok(NULL,""));
-			free(strLine[nIndex]);
-			for(int i = nIndex;i<nTailIndex;i++) {
-				strLine[i] = strLine[i+1];
-			}
-			nTailIndex--;
-			strLine[nTailIndex] = 0x00;
-		}
-		else if(!strcmp(pTemp,"set")) {
-			//set 1 new string
-			int nIndex = atoi(strtok(NULL,""));
-			free(strLine[nIndex]);
-			pTemp = strtok(NULL,"");
-			char *pstr =(char *)malloc(strlen(pTemp)+1);
-			strcpy(pstr,pTemp);
-			strLine[nIndex] = pstr;
-
-			}
-		else if(!strcmp(pTemp,"dump")) {
-
-			puts("--------------------------");
-			for(int i=0;strLine[i] != 0x00;i++){
-				puts(strLine[i]);
-			}
-			puts("--------------------------");
-		}
-
-		return 0;
-	}
+	bLoop = 0;
 }
 
+void me_push()
+{
+	pTemp = strtok(NULL,"");
+	char *pstr = (char *)malloc(strlen(pTemp)+1);
+	strcpy(pstr,pTemp);
+	_S_STR_LINE *pLine = (_S_STR_LINE *)malloc(sizeof(_S_STR_LINE));
+	pLine->m_szStr = pstr;
+	pLine->m_pNext = NULL;
+	if(pHeader == NULL) {
+		pHeader = pLine;
+	}
+	else {
+		//끝까지 찾아들어가기 		
+		_S_STR_LINE *pNext = (_S_STR_LINE *)pHeader;
 
+		while(pNext != NULL) {
+			//마지막이라면...
+			if(pNext->m_pNext == NULL) {
+				pNext->m_pNext = pLine;
+				pNext = NULL;
+			}
+			else { //더있다면...
+				pNext = pNext->m_pNext;
+			}
+		}
+	}
 
+}
 
+void me_delete() 
+{
+	_S_STR_LINE *_pGarbage = pHeader; 
+	pHeader = pHeader->m_pNext;
+
+	free(_pGarbage->m_szStr);
+	free(_pGarbage);
+}
+
+void me_dump()
+{
+	puts("---------------------------");
+	_S_STR_LINE *pLine = pHeader;
+
+	while(pLine != NULL) {
+		puts(pLine->m_szStr);
+		pLine = pLine->m_pNext;	
+	}
+
+	puts("---------------------------");
+
+}
 
 
