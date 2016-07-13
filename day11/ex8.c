@@ -3,11 +3,6 @@
 
 #include "../mapEditor/map.h"
 
-void map_drawTile_trn() 
-{
-
-}
-
 int main()
 {
 	_S_MAP_OBJECT screenBuf;
@@ -24,12 +19,12 @@ int main()
 	map_PutTile(&screenBuf,6,7,4);	
 	map_PutTile(&screenBuf,5,7,4);	
 	map_PutTile(&screenBuf,4,7,4);	
-	
+
 	_S_MAP_OBJECT humanObj;
 	map_init(&humanObj);
 	map_load(&humanObj,"human.dat");
 	puts("\r\n-----------------------");
-	map_drawTile(&humanObj,5,5,&screenBuf);
+	map_drawTile_trn(&humanObj,5,5,&screenBuf);
 	map_dump(&screenBuf,Default_Tilepalete);
 
 	return 0;

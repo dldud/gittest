@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/select.h>
 #include <termios.h>
-#include "../cstudy2016/engine/engine2d.h"
+#include "../engine/engine2d.h"
 #include "map.h"
 
 _S_MAP_OBJECT MapObject;
@@ -17,7 +17,9 @@ int main()
 
 	MapObject.m_header.m_nSkima = 1;
 	MapObject.m_pBuf = NULL;
-	char TilePalette[] = {'.','#','@','%'};
+	//char TilePalette[] = {'.','#','@','%'};
+	//
+	puts("text TileMap Editor v1.1");
 
 	while(bLoop)
 	{
@@ -32,7 +34,7 @@ int main()
 
 		}
 		else if( !strcmp(pTemp,"dump") ){
-			map_dump( &MapObject,TilePalette);
+			map_dump( &MapObject,Default_Tilepalete);
 		}
 		else if(!strcmp(pTemp,"new")) {
 			//new 8 4
@@ -40,9 +42,9 @@ int main()
 				atoi( strtok(NULL," " ));
 			int nHeight = 
 				atoi( strtok(NULL," " ));
-
+			
 			map_new(&MapObject,
-					nWidth,nHeight);
+				nWidth,nHeight);
 		}
 		else if(!strcmp(pTemp,"put")) {
 			//put 1 2 1 (x y tile_index)
@@ -54,7 +56,7 @@ int main()
 			map_PutTile(&MapObject,x,y,tile_index);
 
 			//MapObject.PutTile(x,y,tile_index);
-
+		
 		}
 		else if( !strcmp(pTemp,"hline") ) {
 			//hline 1 2
@@ -88,25 +90,25 @@ int main()
 
 		}
 		else if( !strcmp(pTemp,"tridraw_1") ) {
-			/*   tri_draw_1 1
-			 *
-			 *            #
-			 *            ##
-			 *            ###
-			 *            ####
-			 */
+/*   tri_draw_1 1
+ *
+ *            #
+ *            ##
+ *            ###
+ *            ####
+ */
 			int nTileIndex = atoi( strtok(NULL," "));
 			int nHeight = MapObject.m_header.m_nHeight;
 			int nWidth = MapObject.m_header.m_nWidth;
-
+			
 			for(int iy = 0;iy < nHeight;iy++) {
 				for(int ix=0;(ix < iy) && ( ix <nWidth ) ; ix++) {
-
+					
 					MapObject.m_pBuf[iy*nWidth + ix] = nTileIndex;
 				}
 			}
-
-
+			
+			
 
 		}
 		else if( !strcmp(pTemp,"draw_cross")) {
@@ -120,17 +122,17 @@ int main()
 			x = atoi( strtok(NULL," ") );
 			y = atoi( strtok(NULL," ") );
 			tile_index = atoi( strtok(NULL," ") ); 
-
+			       
 			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + x ] = tile_index;
 			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + (x+1) ] = tile_index;
 			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + (x-1) ] = tile_index;
 			MapObject.m_pBuf[ (y-1)*MapObject.m_header.m_nWidth + x ] = tile_index;
 			MapObject.m_pBuf[ (y+1)*MapObject.m_header.m_nWidth + x ] = tile_index;
-
+			
 		}
 
 	}
-
+		
 	return 0;
 }
 
