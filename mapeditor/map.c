@@ -18,23 +18,32 @@ char Default_Tilepalete[] = {
 	'|',//10
 	'-',//11
 	'*'//12
- };
+};
 
 void map_init(_S_MAP_OBJECT *pObj)
 {
 	pObj->m_pBuf = NULL;
+	pObj->fpLoad = map_load;
+	pObj->fpSave = map_save;
+	pObj->fpDump = map_dump;
+	pObj->fpNew = map_new;
+	pObj->fpPutTile = map_PutTile;
+	pObj->fpDrawTile = map_drawTile;
+	pObj->fpDrawTile_trn = map_drawTile_trn;
+	pObj->fpDrawTile_mirror_v = map_drawTile_mirror_v;
+	pObj->fpDrawTile_mirror_h = map_drawTile_mirror_h;
 }
 
 void map_dump(_S_MAP_OBJECT *pObj,char *pTile_pal)
 {
 	/*putTile(
-			0,pObj->m_header.m_nHeight,
-			0,pObj->m_header.m_nWidth,
-			pObj->m_header.m_nWidth,
-			pObj->m_pBuf,
-			pTile_pal	
-		   );
-	*/
+	  0,pObj->m_header.m_nHeight,
+	  0,pObj->m_header.m_nWidth,
+	  pObj->m_header.m_nWidth,
+	  pObj->m_pBuf,
+	  pTile_pal	
+	  );
+	  */
 	for(int iy=0;iy < pObj->m_header.m_nHeight;iy++) {
 		for(int ix=0;ix < pObj->m_header.m_nWidth;ix++) {
 			putchar(pTile_pal[ pObj->m_pBuf[iy* pObj->m_header.m_nWidth + ix]]);
@@ -46,7 +55,7 @@ void map_dump(_S_MAP_OBJECT *pObj,char *pTile_pal)
 void map_new(_S_MAP_OBJECT *pObj,int nWidth,int nHeight)
 {
 	int nSize = nWidth*nHeight; 
-	
+
 	if(pObj->m_pBuf !=NULL) {free(pObj->m_pBuf); }
 	pObj->m_header.m_nWidth =  nWidth;// atoi(strtok(NULL," "));
 	pObj->m_header.m_nHeight = nHeight;//atoi(strtok(NULL," "));
@@ -57,7 +66,7 @@ void map_new(_S_MAP_OBJECT *pObj,int nWidth,int nHeight)
 		pObj->m_pBuf[i] = 0;
 		//printf("%d",pObj->m_pBuf[i]);
 	}
-	
+
 
 }
 
@@ -108,10 +117,10 @@ int map_load(_S_MAP_OBJECT *pObj,char *filename)
 
 void map_drawTile(_S_MAP_OBJECT *pObj,int posx,int posy,_S_MAP_OBJECT *pTarget)
 {
-//	_S_MAP_OBJECT *pObj = &humanObj;
-//	_S_MAP_OBJECT *pTarget = &screenBuf;
-//	int posx = 5;
-//	int posy = 5;
+	//	_S_MAP_OBJECT *pObj = &humanObj;
+	//	_S_MAP_OBJECT *pTarget = &screenBuf;
+	//	int posx = 5;
+	//	int posy = 5;
 
 	for(int iy=0;iy < pObj->m_header.m_nHeight;iy++) {
 		for(int ix = 0; ix < pObj->m_header.m_nWidth;ix++) {
@@ -158,9 +167,5 @@ void map_drawTile_trn(_S_MAP_OBJECT *pObj, int posx,int posy,_S_MAP_OBJECT *pTar
 	}
 
 }
-
-
-
-
 
 
