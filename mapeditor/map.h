@@ -11,7 +11,7 @@ typedef struct _S_MAP_OBJECT {
 	_S_MAP_HEADER m_header;
 	char *m_pBuf;
 
-	//멤버함수 정의..
+//멤버함수 정의..
 	int (*fpLoad)(struct _S_MAP_OBJECT *,char *);
 	int (*fpSave)(struct _S_MAP_OBJECT *,char *);
 	void (*fpDump)(struct _S_MAP_OBJECT *,char *);

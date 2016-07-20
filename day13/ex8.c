@@ -68,11 +68,11 @@ int main()
 		last_tick = cur_tick;
 		//실시간 입력
 
-		targetx = gtankObject.m_nXpos;
-		targety = gtankObject.m_nYpos;
+		fire_x = gtankObject.m_nXpos;
+		fire_y = gtankObject.m_nYpos;
 
-		fire_x = gPlayerObject.m_nXpos;
-		fire_y = gPlayerObject.m_nYpos;
+		targetx = gPlayerObject.m_nXpos;
+		targety = gPlayerObject.m_nYpos;
 
 
 		if(kbhit() != 0) {
