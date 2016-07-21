@@ -8,7 +8,7 @@
 #include <termios.h>
 
 #include "../engine/engine2d.h"
-#include "../mapeditor/map.h"
+#include "../mapEditor/map.h"
 
 #include "bullet.h"
 

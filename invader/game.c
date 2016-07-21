@@ -9,7 +9,7 @@
 #include <math.h>
 
 #include "../engine/engine2d.h"
-#include "../mapeditor/map.h"
+#include "../mapEditor/map.h"
 
 #include "plane.h"
 #include "bullet.h"
@@ -49,18 +49,19 @@ int main()
 	map_load(&gAlienModel,"tank1.dat");
 	
 	Plane_init(&gPlayerObject,&gPlayerModel,17,10);
-	
+	//bullet_init(&gBulletModel,0,0,0,&gBulletModel);
+		
 	gPlayerObject.m_nFSM = 1;
 
-	double TablePosition[] = {0,7,14,21};
+	double TablePosition[] = {0,8,16,24};
 	
 /*	for(int i=0;i<2;i++)
 	{
 		_S_BULLET_OBJECT *pObj = &gBulletObject[i];
 		bullet_init(pObj,&gBulletObject[i];
 		pObj->m_nFSM = 1;
-	}*/
-
+	}
+*/
 	for(int i=0;i<4;i++)
 	{
 		_S_ALIEN_OBJECT *pObj = &gAlienObjects[i];
@@ -69,7 +70,13 @@ int main()
 		pObj->m_fYpos = 2;
 		pObj->m_nFSM = 1;
 	}
-	
+/*	set_conio_terminal_mode();
+	acc_tick=last_tick=0;
+
+	int targetx,targety;
+
+	int fire_x, fire_y;
+*/
 	
 	system("clear");
 	
@@ -84,14 +91,32 @@ int main()
 		double delta_tick = cur_tick - last_tick;
 		last_tick = cur_tick;
 		//실시간 입력
+		
+/*		fire_x = gAlienObjects.m_nXpos;
+		fire_y = gAlienObjects.m_nYpos;
+
+		targetx = gPlayerObject.m_nXpos;
+		targety = gPlayerObject.m_nypos;
+*/	
 		if(kbhit() != 0) {
 			char ch = getch();
 			if(ch == 'q') {
 				bLoop = 0;
 				puts("bye~ \r");
 			}
-		gPlayerObject.pfApply(&gPlayerObject,delta_tick,ch);
+/*			else if(ch == 'j') {
+				double vx,vy,c;
+				vx = targetx - fire_x;
+				vy = targety - fire_y;
+				c = sqrt(vx*vx+vy*vy);
+				vx /= c;
+				vy /= c;
 
+				bullet_fire(&gBulletObject,fire_x,fire_y,10.0,vx,vy,10.0);
+			
+			}*/
+		gPlayerObject.pfApply(&gPlayerObject,delta_tick,ch);
+//		bullet_apply(&gBulletObject,delta_tick);
 		}
 
 		for(int i=0;i<4;i++ ) 
@@ -123,5 +148,4 @@ int main()
 	}
 
 	return 0;
-
 }
